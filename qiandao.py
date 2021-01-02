@@ -1,21 +1,16 @@
-#!/usr/bin/env python
-# encoding: utf-8
-# @Author   : Xingyu Zhao
-# @Software : Pycharm
-# @File     : pafd.py
-# @Time     : 2020/11/22 16:26
-# @Desc     : Fudan University Pinganfudan Automatic check-in script
-
 import time
 from selenium import webdriver
 
 
 def main(num_id: str, num_password: str):
-    browser = webdriver.Edge()
+    # browser = webdriver.Edge()
+
+    # Webdriver地址
+    chrome_driver = r"E:\Anaconda\Lib\site-packages\selenium\webdriver\chrome\chromedriver.exe"
+
+    browser = webdriver.Chrome(executable_path=chrome_driver)
 
     browser.get('https://zlapp.fudan.edu.cn/site/ncovfudan/daily')
-
-    time.sleep(5)
 
     element = browser.find_element_by_id('username')
     # 输入用户名
@@ -25,11 +20,14 @@ def main(num_id: str, num_password: str):
     # 输入密码
     element.send_keys(num_password)
 
-    element = browser.find_element_by_id('idcheckloginbtn')
+    element = browser.find_element_by_xpath("//div[@class='IDCheckLoginFoot']/input[@id='idcheckloginbtn']")
+
     element.click()
 
     try:
+
         time.sleep(5)
+
         element = browser.find_element_by_xpath(
             '//div[@id="wapat"]//div[@class="wapat-btn-box"]//div[text()="已知晓(I understand)"]')
         element.click()
@@ -56,7 +54,8 @@ def main(num_id: str, num_password: str):
 
 
 if __name__ == '__main__':
-    dic = {'Your student number': 'Your passwords'}
+    # 输入学号和密码
+    dic = {'id':'password'}
     for j in range(0, 2):
         for i in dic:
             try:
